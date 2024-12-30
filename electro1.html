@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solenoid Inductance</title>
+    <style>
+        body {
+            padding: 0px;
+            margin: 0px;
+            background-image: url("img/cool-background\ \(4\).png");
+        }
+
+        main {
+            padding-top: 50px;
+            /* padding-bottom: 50px; */
+            margin: 130px auto;
+            height: 200px;
+            width: 400px;
+            text-align: center;
+        }
+
+        .diff {
+            margin: 50px;
+        }
+
+        .diff-text {
+            height: 20px;
+            width: 250px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            color: rgb(0, 0, 0);
+            box-shadow: 5px 5px 5px;
+            letter-spacing: 2px;
+            font-size: 13px;
+            opacity: 0.6;
+            transition: all 0.5s;
+        }
+
+        .diff-text:hover {
+            opacity: 1;
+        }
+
+        ragul {
+            margin-left: 6px;
+            font-size: 10px;
+        }
+
+        label {
+            font-size: 15px;
+            margin-left: -100px;
+            margin-right: 80px;
+        }
+
+        .s{
+            padding-left: 80px;
+
+            padding-right: 120px;
+        }
+
+        .div1 {
+            margin-top: -150px;
+        }
+
+        .div2 {
+            margin-top: -25px;
+        }
+
+        .diff-textarea {
+            height: 100px;
+            width: 300px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            color: rgb(26, 26, 26);
+            box-shadow: 5px 5px 5px;
+            letter-spacing: 2px;
+            font-size: 20px;
+            padding-top: 30px;
+            opacity: 0.6;
+            transition: all 0.5s;
+        }
+
+        .diff-textarea:hover {
+            opacity: 1;
+        }
+
+        .whole {
+            text-align: center;
+        }
+
+        .h1 {
+            font-size: 50px;
+        }
+
+        .h2 {
+            font-size: 13px;
+            margin-left: 300px;
+            margin-top: -50px;
+            color: rgb(243, 24, 24);
+        }
+
+        .button {
+            margin-top: 20px;
+            height: 18px;
+            width: 50px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            background-color: white;
+            color: rgb(34, 34, 34);
+            box-shadow: 5px 5px 5px;
+            letter-spacing: 2px;
+            font-size: 10px;
+            opacity: 0.6;
+            transition: all 0.5s;
+        }
+
+        .button:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="whole">
+        <div class="heading">
+            <h1 class="h1">Solenoid Inductance Calculator</h1>
+            <!-- <label class="h2">by using "sympy"</label> -->
+        </div>
+        <main>
+            <div class="diff div1">
+                <label class="input2">Number of Turns:</label>
+                <input type="text" class="diff-text i1" placeholder="enter a valid number">
+                <ragul></ragul><br><br>
+                <label class="input2 s">Radius:</label>
+                <input type="text" class="diff-text i2" placeholder="enter a valid number">
+                <ragul>m</ragul><br><br>
+                <label class="input2 s">Lenght:</label>
+                <input type="text" class="diff-text i3" placeholder="enter a valid number">
+                <ragul>μH </ragul>
+                <button class="button">submit</button>
+            </div>
+            <div class="diff div2">
+                <textarea name="diff-textarea" class="diff-textarea" value="output"></textarea>
+            </div>
+        </main>
+    </div>
+    <script>
+
+        let input1 = document.querySelector(".i1");
+        let input2 = document.querySelector(".i2");
+        let input3 = document.querySelector(".i3");
+        let output = document.querySelector(".diff-textarea");
+        let submit = document.querySelector(".button");
+
+        submit.addEventListener("click", () => {
+            output.value = ""
+            function calculateSolenoidInductance(numTurns, radius, length) {
+                // Calculate inductance using formula: L = (μ₀ * N² * A) / l
+                // where μ₀ is the magnetic constant (4π × 10⁻⁷ H/m)
+                // A is the cross-sectional area of the solenoid (π * r²)
+                // l is the length of the solenoid
+                const magneticConstant = 4 * Math.PI * Math.pow(10, -7);
+                const crossSectionalArea = Math.PI * Math.pow(radius, 2);
+                const inductance = (magneticConstant * Math.pow(numTurns, 2) * crossSectionalArea) / length;
+
+                // Convert inductance from henries to microhenries
+                const inductanceMicrohenries = inductance * Math.pow(10, 6);
+
+                return inductanceMicrohenries;
+            }
+
+            function main() {
+                const numTurns = parseInt(input1.value);
+                const radius = parseFloat(input2.value);
+                const length = parseFloat(input3.value);
+
+                const inductance = calculateSolenoidInductance(numTurns, radius, length);
+
+                output.value+=`Inductance: ${inductance.toFixed(5)} μH`;
+            }
+
+            main();
+        })
+    </script>
+</body>
+
+</html>

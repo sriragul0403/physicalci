@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heisenberg's Uncertainly</title>
+    <style>
+        body {
+            padding: 0px;
+            margin: 0px;
+            background-image: url("img/cool-background\ \(4\).png");
+        }
+
+        main {
+            padding-top: 50px;
+            /* padding-bottom: 50px; */
+            margin: 130px auto;
+            height: 200px;
+            width: 400px;
+            text-align: center;
+        }
+
+        .diff {
+            margin: 50px;
+        }
+
+        .diff-text {
+            height: 20px;
+            width: 270px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            color: rgb(0, 0, 0);
+            box-shadow: 5px 5px 5px;
+            letter-spacing: 2px;
+            font-size: 13px;
+            opacity: 0.6;
+            transition: all 0.5s;
+        }
+
+        .diff-text:hover {
+            opacity: 1;
+        }
+
+        ragul {
+            margin-left: 6px;
+            font-size: 10px;
+        }
+
+        label {
+            font-size: 15px;
+            margin-left: -120px;
+            margin-right: 80px;
+        }
+
+        .s {
+            margin-left: -120px;
+            margin-right: 40px;
+        }
+
+        .div1 {
+            margin-top: -150px;
+        }
+
+        .div2 {
+            margin-top: -25px;
+        }
+
+        .diff-textarea {
+            height: 100px;
+            width: 300px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            color: rgb(26, 26, 26);
+            box-shadow: 5px 5px 5px;
+            letter-spacing: 2px;
+            font-size: 20px;
+            padding-top: 30px;
+            opacity: 0.6;
+            transition: all 0.5s;
+        }
+
+        .diff-textarea:hover {
+            opacity: 1;
+        }
+
+        .whole {
+            text-align: center;
+        }
+
+        .h1 {
+            font-size: 50px;
+        }
+
+        .h2 {
+            font-size: 13px;
+            margin-left: 300px;
+            margin-top: -50px;
+            color: rgb(243, 24, 24);
+        }
+
+        .button {
+            margin-top: 20px;
+            height: 18px;
+            width: 50px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            background-color: white;
+            color: rgb(34, 34, 34);
+            box-shadow: 5px 5px 5px;
+            letter-spacing: 2px;
+            font-size: 10px;
+            opacity: 0.6;
+            transition: all 0.5s;
+        }
+
+        .button:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="whole">
+        <div class="heading">
+            <h1 class="h1">Heisenberg's Uncertainly</h1>
+            <!-- <label class="h2">by using "sympy"</label> -->
+        </div>
+        <main>
+            <div class="diff div1">
+                <label class="input2 s">Position Uncertainly:</label>
+                <input type="text" class="diff-text i1" placeholder="enter a valid number">
+                <ragul>nm</ragul><br><br>
+                <label class="input2">Object Mass:</label>
+                <input type="text" class="diff-text i2" placeholder="enter a valid number">
+                <ragul>u</ragul>
+                <button class="button">submit</button>
+            </div>
+            <div class="diff div2">
+                <textarea name="diff-textarea" class="diff-textarea" value="output"></textarea>
+            </div>
+        </main>
+    </div>
+    <script>
+        let input1 = document.querySelector(".i1");
+        let input2 = document.querySelector(".i1");
+
+        let output = document.querySelector(".diff-textarea");
+        let submit = document.querySelector(".button");
+
+        submit.addEventListener("click", () => {
+            output.value = "";
+            function calculateUncertainty(positionUncertainty, mass) {
+                // Planck constant in J*s
+                const planckConstant = 6.62607015e-34;
+
+                // Mass of object in kg (1 u = 1.66053904e-27 kg)
+                const massKg = mass * 1.66053904e-27;
+
+                // Position uncertainty in meters (1 nm = 1e-9 m)
+                const positionUncertaintyM = positionUncertainty * 1e-9;
+
+                // Calculate momentum uncertainty using Heisenberg's Uncertainty Principle
+                const momentumUncertainty = planckConstant / (2 * Math.PI * positionUncertaintyM);
+
+                // Calculate velocity uncertainty
+                const velocityUncertainty = momentumUncertainty / massKg;
+
+                return { momentumUncertainty, velocityUncertainty };
+            }
+
+            function main() {
+                const positionUncertainty = parseFloat(input1.value);
+                const mass = parseFloat(input2.value);
+
+                const { momentumUncertainty, velocityUncertainty } = calculateUncertainty(positionUncertainty, mass);
+
+                output.value += `Momentum uncertainty: ${momentumUncertainty.toExponential(10)} kg*m/s \nVelocity uncertainty: ${velocityUncertainty.toExponential(10)} m/s`
+            }
+
+            main();
+        })
+    </script>
+</body>
+
+</html>
